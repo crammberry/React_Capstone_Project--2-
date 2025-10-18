@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "buildCommand": "node vercel-build.js",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "framework": null,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
