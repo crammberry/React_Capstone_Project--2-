@@ -36,13 +36,13 @@ const Header = () => {
   return (
     <>
       <header className="bg-[#2C3E50] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-3 sm:py-4">
             {/* Logo */}
-            <div className="flex items-center">
-              <div className="flex items-center">
-                <div className="text-white text-xl mr-2">✚</div>
-                <div className="text-white text-xl font-semibold">
+            <div className="flex items-center flex-1 min-w-0">
+              <div className="flex items-center min-w-0">
+                <div className="text-white text-lg sm:text-xl mr-1 sm:mr-2 flex-shrink-0">✚</div>
+                <div className="text-white text-sm sm:text-base md:text-lg lg:text-xl font-semibold truncate">
                   Eternal Rest Memorial Park
                 </div>
               </div>
@@ -83,13 +83,13 @@ const Header = () => {
             </nav>
 
             {/* Admin Controls */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
               {isAdmin ? (
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm text-white">Admin Mode</span>
+                <div className="flex items-center space-x-2 sm:space-x-4">
+                  <span className="text-xs sm:text-sm text-white hidden sm:inline">Admin Mode</span>
                   <button
                     onClick={() => navigate('/admin')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                    className={`px-2 sm:px-3 md:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors duration-200 ${
                       location.pathname === '/admin' 
                         ? 'bg-[#2980B9] text-white border-2 border-blue-300' 
                         : 'bg-[#3498DB] hover:bg-[#2980B9] text-white'
@@ -99,7 +99,7 @@ const Header = () => {
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                    className="bg-gray-600 hover:bg-gray-700 text-white px-2 sm:px-3 md:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors duration-200"
                   >
                     Logout
                   </button>
@@ -107,10 +107,11 @@ const Header = () => {
               ) : (
                 <button
                   onClick={() => setShowAdminLogin(true)}
-                  className="bg-[#3498DB] hover:bg-[#2980B9] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                  className="bg-[#3498DB] hover:bg-[#2980B9] text-white px-2 sm:px-3 md:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors duration-200 flex items-center gap-1 sm:gap-2"
                 >
-                  <span className="text-white">👤</span>
-                  Admin Login
+                  <span className="text-white text-sm sm:text-base">👤</span>
+                  <span className="hidden sm:inline">Admin Login</span>
+                  <span className="sm:hidden">Admin</span>
                 </button>
               )}
             </div>
