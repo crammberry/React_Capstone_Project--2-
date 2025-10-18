@@ -14,10 +14,7 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header 
-        isAdmin={isAdmin}
-        onLogout={logout}
-      />
+      <Header />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-50 via-blue-50/30 to-cyan-50/30 py-16 sm:py-20 text-center border-b border-gray-200/50">
