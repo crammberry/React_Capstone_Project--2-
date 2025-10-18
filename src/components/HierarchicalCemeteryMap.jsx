@@ -1180,8 +1180,9 @@ const HierarchicalCemeteryMap = () => {
               </p>
             </div>
             
-            {/* Tomb Grid */}
-            <div className="relative w-full h-[400px] bg-stone-50 rounded-lg border border-stone-200 overflow-x-auto" style={{ minWidth: '800px' }}>
+            {/* Tomb Grid - Mobile Responsive */}
+            <div className="w-full bg-stone-50 rounded-lg border border-stone-200 p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {cemeteryTombs.map((tomb, index) => {
                 // Get plot data for status-based coloring
                 // Use plotId if available, otherwise fall back to id
@@ -1264,14 +1265,12 @@ const HierarchicalCemeteryMap = () => {
                       <div
                     key={tomb.id}
                     onClick={() => handleTombClick(tomb)}
-                    className="absolute border-2 rounded-lg p-1 cursor-pointer transition-all duration-200 transform hover:scale-105 w-20 h-14"
+                    className="border-2 rounded-lg p-2 cursor-pointer transition-all duration-200 transform hover:scale-105 min-h-[80px] flex flex-col justify-center items-center"
               style={{ 
-                      left: `${tomb.position.x}px`,
-                      top: `${tomb.position.y}px`,
                       ...tombStyle
                     }}
                   >
-                    <div className="text-center h-full flex flex-col justify-center items-center">
+                    <div className="text-center flex flex-col justify-center items-center space-y-1">
                       <div className="font-bold text-white text-xs text-center">
                         {tomb.name}
                           </div>
@@ -1881,11 +1880,12 @@ const HierarchicalCemeteryMap = () => {
           style={{ 
                 width: '100%',
                 maxWidth: '100%',
-                overflow: 'hidden',
+                overflow: 'auto',
                 display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px sm:20px md:30px'
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                padding: '10px',
+                minHeight: '300px'
               }}
               onClick={(e) => {
                 if (e.target === svgContainerRef.current) {
@@ -1896,15 +1896,15 @@ const HierarchicalCemeteryMap = () => {
               <div
                 ref={svgRef}
                 dangerouslySetInnerHTML={{ __html: svgContent }}
-                className="w-full h-auto min-w-full"
+                className="w-auto h-auto"
         style={{
-                  width: '100%',
+                  width: 'auto',
                   height: 'auto',
-                  maxWidth: '100%',
-                  minHeight: '300px',
+                  minWidth: '800px',
+                  minHeight: '400px',
                   overflow: 'visible',
                   transform: 'scale(1.0)',
-                  transformOrigin: 'center'
+                  transformOrigin: 'top left'
                 }}
                 onClick={(e) => {
                   e.preventDefault();

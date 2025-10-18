@@ -27,6 +27,27 @@
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
+  
+  /* Cemetery map mobile improvements */
+  .map-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Tomb grid mobile improvements */
+  .tomb-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    padding: 1rem !important;
+  }
+  
+  /* Make SVG text more readable on mobile */
+  svg text, svg tspan {
+    font-size: 4px !important;
+    font-weight: bold !important;
+  }
 }
 
 /* Enhanced SVG text visibility for cemetery map - much smaller sizes to fit in boxes */
