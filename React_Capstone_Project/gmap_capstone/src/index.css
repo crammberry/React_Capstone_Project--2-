@@ -415,3 +415,292 @@ select:focus {
 }
 
 /* Plot status colors are now handled by JavaScript with !important styles */
+
+/* ===================================
+   MOBILE RESPONSIVE STYLES
+   =================================== */
+
+/* Mobile breakpoints */
+@media (max-width: 768px) {
+  /* Body and typography adjustments for mobile */
+  body {
+    font-size: 14px;
+  }
+
+  /* Map container mobile adjustments */
+  .map-container {
+    padding: 10px !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* SVG mobile adjustments - make it scrollable */
+  svg {
+    width: 150% !important;
+    min-width: 600px !important;
+    height: auto !important;
+    max-width: none !important;
+  }
+
+  /* Status Legend - stack vertically on mobile */
+  .bg-gradient-to-r .grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Navigation header adjustments */
+  .bg-stone-800 {
+    padding: 12px !important;
+  }
+
+  .bg-stone-800 h1 {
+    font-size: 16px !important;
+  }
+
+  .bg-stone-800 .text-sm {
+    font-size: 11px !important;
+  }
+
+  /* Modal adjustments for mobile */
+  .fixed .max-w-2xl {
+    max-width: 95% !important;
+    margin: 10px !important;
+  }
+
+  /* Tomb details modal - make scrollable */
+  .max-h-\[90vh\] {
+    max-height: 85vh !important;
+  }
+
+  /* Modal header adjustments */
+  .bg-stone-800.text-white {
+    padding: 16px 12px !important;
+  }
+
+  .bg-stone-800 h2 {
+    font-size: 18px !important;
+  }
+
+  /* Form grid - stack on mobile */
+  .grid-cols-1.md\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Button adjustments for mobile */
+  button {
+    padding: 10px 16px !important;
+    font-size: 13px !important;
+  }
+
+  /* Level selector tomb grid */
+  .relative.w-full.h-\[400px\] {
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Tomb elements in level selector */
+  .w-20.h-14 {
+    width: 60px !important;
+    height: 50px !important;
+  }
+
+  /* Directions modal adjustments */
+  .max-w-2xl.w-full {
+    max-width: 95% !important;
+  }
+
+  .max-h-\[80vh\] {
+    max-height: 75vh !important;
+  }
+
+  /* Status legend cards */
+  .rounded-lg.p-4 {
+    padding: 12px !important;
+  }
+
+  /* Reduce padding on main container */
+  .p-2.md\:p-6 {
+    padding: 8px !important;
+  }
+
+  .p-6 {
+    padding: 16px !important;
+  }
+
+  /* Hero section and features */
+  .text-3xl {
+    font-size: 24px !important;
+  }
+
+  .text-2xl {
+    font-size: 20px !important;
+  }
+
+  .text-xl {
+    font-size: 18px !important;
+  }
+
+  .text-lg {
+    font-size: 16px !important;
+  }
+
+  /* Make buttons full width on mobile */
+  .flex.justify-end.gap-3 button {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .flex.justify-end.gap-3 {
+    flex-wrap: wrap;
+  }
+
+  /* SVG text size adjustments for mobile */
+  svg text, svg tspan {
+    font-size: 4px !important;
+    stroke-width: 0.3px !important;
+  }
+
+  /* Increase clickable area for mobile */
+  svg rect[id^="lb-"], svg rect[id^="rb-"], svg rect[id^="apartment-"], 
+  svg rect[id^="veterans"], svg rect[id^="eternal"],
+  svg ellipse[id^="lb-"], svg ellipse[id^="rb-"], svg ellipse[id^="apartment-"], 
+  svg ellipse[id^="veterans"], svg ellipse[id^="eternal"] {
+    stroke-width: 4px !important;
+  }
+}
+
+/* Small mobile devices (phones in portrait) */
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+
+  /* Even more compact on small phones */
+  .map-container {
+    padding: 5px !important;
+  }
+
+  /* SVG adjustments for very small screens */
+  svg {
+    width: 200% !important;
+    min-width: 800px !important;
+  }
+
+  /* Modal padding */
+  .fixed .max-w-2xl {
+    max-width: 98% !important;
+    margin: 5px !important;
+  }
+
+  /* Reduce all padding significantly */
+  .p-6 {
+    padding: 12px !important;
+  }
+
+  .p-4 {
+    padding: 10px !important;
+  }
+
+  .p-3 {
+    padding: 8px !important;
+  }
+
+  /* Stack buttons vertically on very small screens */
+  .flex.justify-end.gap-3 {
+    flex-direction: column;
+  }
+
+  .flex.justify-end.gap-3 button {
+    width: 100%;
+  }
+
+  /* Font size adjustments */
+  .text-3xl {
+    font-size: 20px !important;
+  }
+
+  .text-2xl {
+    font-size: 18px !important;
+  }
+
+  .text-xl {
+    font-size: 16px !important;
+  }
+
+  /* Level selector buttons */
+  .flex.gap-4.justify-center {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .flex.gap-4.justify-center button {
+    width: 100%;
+  }
+}
+
+/* Tablet landscape */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .map-container {
+    padding: 15px !important;
+  }
+
+  svg {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Keep 2 columns on tablet for status legend */
+  .bg-gradient-to-r .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Adjust modal height for landscape */
+  .max-h-\[90vh\] {
+    max-height: 90vh !important;
+  }
+
+  .max-h-\[80vh\] {
+    max-height: 85vh !important;
+  }
+
+  /* Make better use of horizontal space */
+  svg {
+    width: 120% !important;
+    min-width: 700px !important;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch target size */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Make plot elements easier to tap */
+  svg rect[id^="lb-"], svg rect[id^="rb-"], svg rect[id^="apartment-"], 
+  svg rect[id^="veterans"], svg rect[id^="eternal"],
+  svg ellipse[id^="lb-"], svg ellipse[id^="rb-"], svg ellipse[id^="apartment-"], 
+  svg ellipse[id^="veterans"], svg ellipse[id^="eternal"] {
+    stroke-width: 5px !important;
+  }
+
+  /* Remove hover effects on touch devices */
+  .modern-card:hover {
+    transform: none;
+  }
+
+  .modern-btn-primary:hover,
+  .modern-btn-secondary:hover,
+  .modern-btn-success:hover,
+  .modern-btn-warning:hover,
+  .modern-btn-error:hover,
+  .modern-btn-exhumation:hover {
+    transform: none;
+  }
+}

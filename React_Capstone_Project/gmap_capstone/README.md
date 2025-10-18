@@ -7,8 +7,12 @@ A modern React-based web application for cemetery management with interactive ma
 - **Interactive Cemetery Map**: Visual representation of burial plots with status indicators
 - **Search Functionality**: Find loved ones by name, plot number, or section
 - **Admin Dashboard**: Manage burial records, add/edit plots, and update status
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Mobile Responsive**: Fully optimized for desktop, tablet, and mobile devices with touch support
+- **Exhumation Management**: Request and track exhumation processes
+- **Level-based Navigation**: Multi-level mausoleum support with hierarchical navigation
+- **Real-time Status Updates**: Color-coded plot status (Available, Occupied, Reserved, Exhumed)
 - **Modern UI**: Built with Tailwind CSS v4 and Font Awesome icons
+- **Database Integration**: Supabase backend for data persistence
 
 ## Technology Stack
 
@@ -64,18 +68,50 @@ npm run dev
 ## Project Structure
 
 ```
-src/
-├── components/
-│   ├── Header.jsx              # Navigation and admin controls
-│   ├── HeroSection.jsx         # Main landing section
-│   ├── FeaturesSection.jsx     # About the system
-│   ├── SearchSection.jsx       # Search functionality
-│   ├── InteractiveMapSection.jsx # Cemetery map display
-│   ├── Footer.jsx              # Footer component
-│   └── Modal.jsx               # Admin modals
-├── App.jsx                     # Main application component
-├── index.css                   # Global styles and Tailwind imports
-└── main.jsx                    # Application entry point
+gmap_capstone/
+├── backups/                    # Backup files and old scripts
+├── database/                   # SQL schema and migration files
+├── docs/                       # Documentation and setup guides
+├── public/                     # Static assets
+│   ├── cemetery-map.svg        # Main cemetery map SVG
+│   └── vite.svg
+├── src/
+│   ├── components/             # React components
+│   │   ├── CemeteryDirectory.jsx
+│   │   ├── ExhumationManagement.jsx
+│   │   ├── ExhumationRequestModal.jsx
+│   │   ├── FeaturesSection.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Header.jsx
+│   │   ├── HeroSection.jsx
+│   │   ├── HierarchicalCemeteryMap.jsx  # Main interactive map
+│   │   ├── Modal.jsx
+│   │   ├── PlotSelectionMap.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   └── SimpleAdminLoginModal.jsx
+│   ├── contexts/               # React context providers
+│   │   ├── AuthContext.jsx
+│   │   └── ExhumationContext.jsx
+│   ├── pages/                  # Page components
+│   │   ├── AboutPage.jsx
+│   │   ├── AdminDashboard.jsx
+│   │   ├── ContactPage.jsx
+│   │   ├── HomePage.jsx
+│   │   ├── MapPage.jsx
+│   │   └── NotFoundPage.jsx
+│   ├── services/               # API and data services
+│   │   └── DataService.js
+│   ├── supabase/               # Supabase configuration
+│   │   ├── config.js
+│   │   └── database.js
+│   ├── App.jsx                 # Main application component
+│   ├── index.css               # Global styles (includes mobile responsive)
+│   └── main.jsx                # Application entry point
+├── eslint.config.js            # ESLint configuration
+├── index.html                  # HTML entry point
+├── package.json                # Dependencies and scripts
+├── vercel.json                 # Vercel deployment config
+└── vite.config.js              # Vite build configuration
 ```
 
 ## Customization

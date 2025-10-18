@@ -1307,7 +1307,7 @@ const HierarchicalCemeteryMap = () => {
                       </div>
                     );
   };
-
+                  
   const renderTombDetailsModal = () => {
     if (!showTombDetails || !selectedTomb) return null;
 

@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "node vercel-build.js",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "framework": null,
   "builds": [
     {
       "src": "package.json",
