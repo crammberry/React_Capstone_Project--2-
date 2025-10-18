@@ -1868,7 +1868,7 @@ const HierarchicalCemeteryMap = () => {
       </div>
 
         {/* Map Container */}
-      <div className="p-2 md:p-6">
+      <div className="p-2 sm:p-4 md:p-6">
         <div className="max-w-7xl mx-auto">
           {!svgContent ? (
             <div className="bg-white rounded-lg shadow-lg p-8 text-center">
@@ -1877,7 +1877,7 @@ const HierarchicalCemeteryMap = () => {
           ) : (
             <div 
               ref={svgContainerRef}
-              className="bg-white rounded-lg shadow-lg map-container"
+              className="bg-white rounded-lg shadow-lg map-container overflow-x-auto"
           style={{ 
                 width: '100%',
                 maxWidth: '100%',
@@ -1885,7 +1885,7 @@ const HierarchicalCemeteryMap = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '30px'
+                padding: '10px sm:20px md:30px'
               }}
               onClick={(e) => {
                 if (e.target === svgContainerRef.current) {
@@ -1896,13 +1896,13 @@ const HierarchicalCemeteryMap = () => {
               <div
                 ref={svgRef}
                 dangerouslySetInnerHTML={{ __html: svgContent }}
-                className="w-full h-auto"
+                className="w-full h-auto min-w-full"
         style={{
-                  width: '90%',
+                  width: '100%',
                   height: 'auto',
-                  maxWidth: '90%',
-                  minHeight: '400px',
-                  overflow: 'hidden',
+                  maxWidth: '100%',
+                  minHeight: '300px',
+                  overflow: 'visible',
                   transform: 'scale(1.0)',
                   transformOrigin: 'center'
                 }}

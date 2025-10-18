@@ -107,10 +107,10 @@ const MapPage = () => {
         </div>
         
         <div className="relative max-w-5xl mx-auto px-4 sm:px-8">
-          <h3 className="text-3xl sm:text-4xl text-slate-800 mb-6 font-bold bg-gradient-to-r from-slate-800 via-blue-600 to-cyan-600 bg-clip-text text-transparent leading-tight">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl text-slate-800 mb-4 sm:mb-6 font-bold bg-gradient-to-r from-slate-800 via-blue-600 to-cyan-600 bg-clip-text text-transparent leading-tight">
             Find Your Loved Ones
           </h3>
-          <p className="text-lg sm:text-xl text-gray-600 mb-10 sm:mb-12 px-4 font-light">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 lg:mb-12 px-2 sm:px-4 font-light">
             Search for your family members and friends who rest in our memorial park
           </p>
           
@@ -123,28 +123,28 @@ const MapPage = () => {
             </div>
           )}
           
-          <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-4 justify-center mb-6 max-w-3xl mx-auto">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-4 sm:mb-6 max-w-3xl mx-auto">
             <div className="relative flex-1">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Enter the name of your loved one, plot ID, or section..."
-                className="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl text-lg focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg"
+                placeholder="Enter name, plot ID, or section..."
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 border-2 border-gray-200 rounded-xl sm:rounded-2xl text-base sm:text-lg focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg"
               />
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <div className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                 <i className="fas fa-search"></i>
               </div>
             </div>
             <button
               type="submit"
               disabled={isSearching || !dataLoaded}
-              className="group relative bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl flex items-center gap-3 justify-center min-h-[56px]"
+              className="group relative bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl flex items-center gap-2 sm:gap-3 justify-center min-h-[48px] sm:min-h-[56px]"
             >
               {isSearching ? (
-                <div className="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full"></div>
+                <div className="loading-spinner w-5 h-5 sm:w-6 sm:h-6 border-2 border-white border-t-transparent rounded-full"></div>
               ) : (
-                <i className="fas fa-search text-xl"></i>
+                <i className="fas fa-search text-lg sm:text-xl"></i>
               )}
               Search
               {/* Shine effect */}
@@ -153,17 +153,17 @@ const MapPage = () => {
           </form>
           
           {/* Directory Button */}
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-3 sm:mt-4">
             <button
               onClick={() => setShowDirectory(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-2xl font-bold text-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl flex items-center gap-3"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 sm:px-8 py-3 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl flex items-center gap-2 sm:gap-3"
             >
-              <i className="fas fa-map-marked-alt text-xl"></i>
+              <i className="fas fa-map-marked-alt text-lg sm:text-xl"></i>
               Cemetery Directory
             </button>
           </div>
           
-          <p className="text-lg text-gray-500 px-4 font-medium mt-4">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 px-2 sm:px-4 font-medium mt-3 sm:mt-4">
             Search by name, plot ID (e.g., "lb-1-level1-A"), section, or level
           </p>
         </div>
