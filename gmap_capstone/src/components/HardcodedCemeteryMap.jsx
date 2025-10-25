@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import ExhumationRequestModal from './ExhumationRequestModal';
 import PlotDetailsModal from './PlotDetailsModal';
 import ExhumationRequestForm from './ExhumationRequestForm';
+import PlotReservationForm from './PlotReservationForm';
 import './HardcodedCemeteryMap.css';
 
 const HardcodedCemeteryMap = () => {
@@ -41,6 +42,7 @@ const HardcodedCemeteryMap = () => {
   const [showPlotModal, setShowPlotModal] = useState(false);
   const [showExhumationForm, setShowExhumationForm] = useState(false);
   const [exhumationType, setExhumationType] = useState(null);
+  const [showReservationForm, setShowReservationForm] = useState(false);
   
   const [plots, setPlots] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1730,8 +1732,8 @@ const HardcodedCemeteryMap = () => {
             setShowPlotModal(false);
           }}
           onReservePlot={(plot) => {
-            // TODO: Implement PlotReservationForm
-            alert('Plot reservation feature coming soon!');
+            setShowReservationForm(true);
+            setShowPlotModal(false);
           }}
           onPlotUpdated={() => {
             console.log('🔄 Plot updated, reloading map data...');
@@ -1751,6 +1753,19 @@ const HardcodedCemeteryMap = () => {
             setShowExhumationForm(false);
             setSelectedTomb(null);
             setExhumationType(null);
+          }}
+        />
+      )}
+
+      {/* Plot Reservation Form */}
+      {showReservationForm && selectedTomb && (
+        <PlotReservationForm
+          plot={selectedTomb.deceasedData}
+          onClose={() => setShowReservationForm(false)}
+          onSuccess={() => {
+            alert('Plot reservation submitted successfully! You will be contacted for payment and verification.');
+            setShowReservationForm(false);
+            setSelectedTomb(null);
           }}
         />
       )}

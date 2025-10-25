@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import VerificationCodeInput from './VerificationCodeInput';
 
 const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, sendVerificationCode, verifyCode }) => {
   const [mode, setMode] = useState('login'); // 'login', 'register', 'admin'
+  const verifyingRef = useRef(false); // Track if verification is in progress
   const [formData, setFormData] = useState({
     // Basic auth fields
     email: '',
@@ -126,8 +127,8 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
             setIsLoading(false);
             return;
           }
-          if (!formData.contactNumber) {
-            setError('Contact number is required');
+          if (!formData.contactNumber || formData.contactNumber.length !== 11) {
+            setError('Primary contact must be exactly 11 digits (Philippine format)');
             setIsLoading(false);
             return;
           }
@@ -272,7 +273,14 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
   };
 
   const handleVerifyCode = async (code) => {
+    // Prevent duplicate verification attempts
+    if (verifyingRef.current) {
+      console.log('⏸️ Verification already in progress, skipping duplicate call');
+      return { success: false, error: 'Verification in progress' };
+    }
+    
     try {
+      verifyingRef.current = true;
       console.log('🔄 Parent component verifying code:', code);
       const result = await verifyCode(formData.email, code);
       console.log('🔄 Parent verification result:', result);
@@ -293,6 +301,8 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
       console.error('❌ Parent component verification error:', error);
       setCodeError('Verification failed. Please try again.');
       return { success: false, error: 'Verification failed. Please try again.' };
+    } finally {
+      verifyingRef.current = false;
     }
   };
 
@@ -514,25 +524,6 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
             </div>
           )}
 
-          {/* Error Message */}
-          {error && (
-            <div style={{
-              backgroundColor: '#fef2f2',
-              border: '1px solid #fecaca',
-              color: '#dc2626',
-              padding: '1rem',
-              borderRadius: '0.75rem',
-              marginBottom: '1.5rem',
-              fontSize: '0.875rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <span>⚠️</span>
-              {error}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit}>
             {/* Step 1: Basic Authentication */}
             {mode !== 'register' || (mode === 'register' && currentStep === 1) ? (
@@ -588,6 +579,7 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                     error={codeError}
                     disabled={!isCodeSent}
                     onVerifyCode={handleVerifyCode}
+                    isVerified={isCodeVerified}
                   />
                 )}
 
@@ -612,7 +604,7 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                     style={{
                       width: '100%',
                       padding: '1rem',
-                      border: '2px solid #e5e7eb',
+                      border: `2px solid ${formData.password && formData.password.length > 0 && formData.password.length < 6 ? '#ef4444' : '#e5e7eb'}`,
                       borderRadius: '0.75rem',
                       fontSize: '1rem',
                       outline: 'none',
@@ -625,11 +617,40 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                       e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
                     }}
                     onBlur={(e) => {
-                      e.target.style.borderColor = '#e5e7eb';
+                      e.target.style.borderColor = formData.password && formData.password.length > 0 && formData.password.length < 6 ? '#ef4444' : '#e5e7eb';
                       e.target.style.background = '#fafafa';
                       e.target.style.boxShadow = 'none';
                     }}
                   />
+                  {/* Password Requirements */}
+                  {mode === 'register' && (
+                    <div style={{
+                      marginTop: '0.5rem',
+                      fontSize: '0.75rem',
+                      color: formData.password.length >= 6 ? '#10b981' : '#6b7280'
+                    }}>
+                      {formData.password.length >= 6 ? (
+                        <span style={{ color: '#10b981' }}>✓ Password meets requirements</span>
+                      ) : (
+                        <span>• Minimum 6 characters required</span>
+                      )}
+                    </div>
+                  )}
+                  {/* Inline Error for Password */}
+                  {formData.password && formData.password.length > 0 && formData.password.length < 6 && (
+                    <div style={{
+                      marginTop: '0.5rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      color: '#ef4444',
+                      fontSize: '0.875rem',
+                      fontWeight: '500'
+                    }}>
+                      <span>⚠️</span>
+                      <span>Password must be at least 6 characters</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Confirm Password (Register only) */}
@@ -654,7 +675,7 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                       style={{
                         width: '100%',
                         padding: '1rem',
-                        border: '2px solid #e5e7eb',
+                        border: `2px solid ${formData.confirmPassword && formData.confirmPassword !== formData.password ? '#ef4444' : '#e5e7eb'}`,
                         borderRadius: '0.75rem',
                         fontSize: '1rem',
                         outline: 'none',
@@ -667,11 +688,35 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                         e.target.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#e5e7eb';
+                        e.target.style.borderColor = formData.confirmPassword && formData.confirmPassword !== formData.password ? '#ef4444' : '#e5e7eb';
                         e.target.style.background = '#fafafa';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
+                    {/* Password Match Indicator */}
+                    {formData.confirmPassword && (
+                      <div style={{
+                        marginTop: '0.5rem',
+                        fontSize: '0.75rem',
+                        color: formData.confirmPassword === formData.password ? '#10b981' : '#ef4444'
+                      }}>
+                        {formData.confirmPassword === formData.password ? (
+                          <span style={{ color: '#10b981' }}>✓ Passwords match</span>
+                        ) : (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            color: '#ef4444',
+                            fontSize: '0.875rem',
+                            fontWeight: '500'
+                          }}>
+                            <span>⚠️</span>
+                            <span>Passwords do not match</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </>
@@ -1130,13 +1175,18 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                         type="tel"
                         name="contactNumber"
                         value={formData.contactNumber}
-                        onChange={handleInputChange}
-                        placeholder="+1 (555) 123-4567"
+                        onChange={(e) => {
+                          // Only allow numbers and limit to 11 digits
+                          const value = e.target.value.replace(/\D/g, '').slice(0, 11);
+                          handleInputChange({ target: { name: 'contactNumber', value } });
+                        }}
+                        placeholder="09123456789 (11 digits)"
                         required
+                        maxLength="11"
                         style={{
                           width: '100%',
                           padding: '0.75rem',
-                          border: '2px solid #e5e7eb',
+                          border: `2px solid ${formData.contactNumber && formData.contactNumber.length > 0 && formData.contactNumber.length !== 11 ? '#ef4444' : '#e5e7eb'}`,
                           borderRadius: '0.5rem',
                           fontSize: '0.875rem',
                           outline: 'none',
@@ -1148,10 +1198,33 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
                           e.target.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
                         }}
                         onBlur={(e) => {
-                          e.target.style.borderColor = '#e5e7eb';
+                          e.target.style.borderColor = formData.contactNumber && formData.contactNumber.length > 0 && formData.contactNumber.length !== 11 ? '#ef4444' : '#e5e7eb';
                           e.target.style.boxShadow = 'none';
                         }}
                       />
+                      {/* Phone Number Validation Feedback */}
+                      {formData.contactNumber && (
+                        <div style={{
+                          marginTop: '0.5rem',
+                          fontSize: '0.75rem'
+                        }}>
+                          {formData.contactNumber.length === 11 ? (
+                            <span style={{ color: '#10b981' }}>✓ Valid mobile number</span>
+                          ) : (
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.5rem',
+                              color: '#ef4444',
+                              fontSize: '0.75rem',
+                              fontWeight: '500'
+                            }}>
+                              <span>⚠️</span>
+                              <span>Must be exactly 11 digits ({formData.contactNumber.length}/11)</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     {/* Alternate Contact */}
@@ -1347,6 +1420,30 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
               </>
             )}
 
+            {/* Error Message - Now at bottom for better visibility */}
+            {error && (
+              <div style={{
+                backgroundColor: '#fef2f2',
+                border: '2px solid #fca5a5',
+                color: '#dc2626',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                marginBottom: '1rem',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                boxShadow: '0 4px 6px rgba(220, 38, 38, 0.1)'
+              }}>
+                <span style={{ fontSize: '1.25rem' }}>⚠️</span>
+                <div>
+                  <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>Registration Error</div>
+                  <div>{error}</div>
+                </div>
+              </div>
+            )}
+
             {/* Action Buttons */}
             <div style={{ display: 'flex', gap: '1rem' }}>
               {/* Back Button (for registration step 2) */}
@@ -1382,25 +1479,55 @@ const UnifiedAuthModal = ({ isOpen, onClose, onLogin, onRegister, onAdminLogin, 
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || 
+                  (mode === 'register' && currentStep === 1 && (
+                    formData.password.length < 6 || 
+                    formData.password !== formData.confirmPassword ||
+                    !isCodeVerified
+                  ))
+                }
                 style={{
                   flex: mode === 'register' && currentStep === 2 ? 2 : 1,
                   padding: '1rem',
                   border: 'none',
                   borderRadius: '0.75rem',
-                  background: isLoading ? '#9ca3af' : 
+                  background: (isLoading || 
+                    (mode === 'register' && currentStep === 1 && (
+                      formData.password.length < 6 || 
+                      formData.password !== formData.confirmPassword ||
+                      !isCodeVerified
+                    ))) ? '#9ca3af' : 
                     mode === 'admin' ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : 
                     mode === 'register' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
                     'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                   color: 'white',
                   fontSize: '1rem',
                   fontWeight: '600',
-                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  cursor: (isLoading || 
+                    (mode === 'register' && currentStep === 1 && (
+                      formData.password.length < 6 || 
+                      formData.password !== formData.confirmPassword ||
+                      !isCodeVerified
+                    ))) ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s',
-                  boxShadow: isLoading ? 'none' : '0 4px 12px rgba(0, 0, 0, 0.15)'
+                  boxShadow: (isLoading || 
+                    (mode === 'register' && currentStep === 1 && (
+                      formData.password.length < 6 || 
+                      formData.password !== formData.confirmPassword ||
+                      !isCodeVerified
+                    ))) ? 'none' : '0 4px 12px rgba(0, 0, 0, 0.15)',
+                  opacity: (mode === 'register' && currentStep === 1 && (
+                    formData.password.length < 6 || 
+                    formData.password !== formData.confirmPassword ||
+                    !isCodeVerified
+                  )) ? 0.6 : 1
                 }}
                 onMouseEnter={(e) => {
-                  if (!isLoading) {
+                  if (!isLoading && !(mode === 'register' && currentStep === 1 && (
+                    formData.password.length < 6 || 
+                    formData.password !== formData.confirmPassword ||
+                    !isCodeVerified
+                  ))) {
                     e.target.style.transform = 'translateY(-1px)';
                     e.target.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)';
                   }

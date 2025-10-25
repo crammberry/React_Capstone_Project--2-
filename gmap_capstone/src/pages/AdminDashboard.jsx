@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useExhumation } from '../contexts/ExhumationContext';
 import DataService from '../services/DataService';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { PlotModal } from '../components/Modal';
 import HardcodedCemeteryMap from '../components/HardcodedCemeteryMap';
 import ExhumationManagement from '../components/ExhumationManagement';
+import ReservationManagement from '../components/ReservationManagement';
+import UserManagement from '../components/UserManagement';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { isAdmin, logout } = useAuth();
-  const exhumationContext = useExhumation();
+  const { isAdmin, userProfile, logout } = useAuth();
+  
+  // Check if user is superadmin
+  const isSuperAdmin = userProfile?.role === 'superadmin';
   
   // Database state
   const [realisticStats, setRealisticStats] = useState({ total: 0, available: 0, occupied: 0, reserved: 0, exhumed: 0 });
@@ -206,19 +209,27 @@ const AdminDashboard = () => {
             >
               🏺 Exhumation Management
             </button>
-            {exhumationContext && (
+            <button
+              onClick={() => setActiveTab('reservations')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'reservations'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              🏷️ Plot Reservations
+            </button>
+            {/* SUPERADMIN ONLY: User Management Tab */}
+            {isSuperAdmin && (
               <button
-                onClick={() => setActiveTab('exhumations')}
+                onClick={() => setActiveTab('users')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'exhumations'
-                    ? 'border-blue-500 text-blue-600'
+                  activeTab === 'users'
+                    ? 'border-amber-500 text-amber-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                Exhumations
-                <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                  {exhumationContext.exhumationRequests.length}
-                </span>
+                ⭐ User Management
               </button>
             )}
           </nav>
@@ -405,31 +416,17 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Exhumations Tab */}
-        {activeTab === 'exhumations' && exhumationContext && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Exhumation Requests</h3>
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {exhumationContext.exhumationRequests.map((request) => (
-                  <li key={request.id} className="px-6 py-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">{request.deceasedName}</p>
-                        <p className="text-sm text-gray-600">{request.plotLocation}</p>
-                      </div>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        request.status === 'approved' ? 'bg-green-100 text-green-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {request.status}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* Plot Reservations Tab */}
+        {activeTab === 'reservations' && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <ReservationManagement />
+          </div>
+        )}
+
+        {/* User Management Tab - SUPERADMIN ONLY */}
+        {activeTab === 'users' && isSuperAdmin && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <UserManagement />
           </div>
         )}
       </div>

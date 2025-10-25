@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DataService from '../services/DataService';
+import { supabase } from '../supabase/config';
 
 const ExhumationManagement = () => {
   const [exhumationRequests, setExhumationRequests] = useState([]);
@@ -157,6 +158,46 @@ const ExhumationManagement = () => {
       // Show success notification
       setNotification(`Exhumation request status updated to ${newStatus.toUpperCase()}`);
       setTimeout(() => setNotification(null), 3000);
+
+      // Send email notification to user
+      if (newStatus === 'approved' || newStatus === 'rejected') {
+        const request = exhumationRequests.find(r => r.id === requestId);
+        if (request) {
+          try {
+            console.log('📧 Sending email notification...', {
+              status: newStatus,
+              email: request.requestor_email || 'N/A'
+            });
+
+            // Call Supabase Edge Function to send email
+            const { data, error: emailError } = await supabase.functions.invoke('send-exhumation-notification', {
+              body: {
+                email: request.requestor_email,
+                requestType: request.request_type || 'OUT',
+                plotId: request.plotId,
+                requestId: request.id,
+                status: newStatus,
+                deceasedName: request.deceasedName,
+                requestorName: request.nextOfKin,
+                adminNotes: adminNotes,
+                scheduledDate: exhumationDate,
+              }
+            });
+
+            if (emailError) {
+              console.error('❌ Email sending error:', emailError);
+              // Don't throw - just log the error, don't block the approval
+              setNotification(`Request ${newStatus} but email notification failed. Please contact user manually.`);
+            } else {
+              console.log('✅ Email notification sent successfully:', data);
+              setNotification(`Request ${newStatus} and email sent to user successfully!`);
+            }
+          } catch (emailError) {
+            console.error('❌ Error sending email:', emailError);
+            // Don't throw - just log the error
+          }
+        }
+      }
 
       // Trigger immediate refresh to get latest data from database
       setTimeout(() => {

@@ -7,7 +7,8 @@ const VerificationCodeInput = ({
   resendCooldown, 
   error,
   disabled = false,
-  onVerifyCode = null // New prop for real-time verification
+  onVerifyCode = null, // New prop for real-time verification
+  isVerified = false // Prop from parent indicating if code is verified
 }) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -24,6 +25,14 @@ const VerificationCodeInput = ({
       }, 100);
     }
   }, [disabled]);
+
+  // Sync with parent's verification state
+  useEffect(() => {
+    if (isVerified) {
+      setVerificationStatus('valid');
+      console.log('✅ Child component synced with parent: Code verified');
+    }
+  }, [isVerified]);
 
   const handleCodeChange = async (index, value) => {
     // Only allow single digit
@@ -52,10 +61,12 @@ const VerificationCodeInput = ({
         const result = await onVerifyCode(fullCode);
         console.log('🔄 Verification result:', result);
         
+        // Only set status if verification completed (ignore "in progress" responses)
         if (result.success) {
           setVerificationStatus('valid');
           console.log('✅ UI updated to valid status');
-        } else {
+        } else if (result.error !== 'Verification in progress') {
+          // Don't show error for duplicate calls being skipped
           setVerificationStatus('invalid');
           console.log('❌ UI updated to invalid status');
         }
@@ -202,7 +213,7 @@ const VerificationCodeInput = ({
         </div>
       )}
 
-      {verificationStatus === 'invalid' && (
+      {verificationStatus === 'invalid' && !isVerified && (
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -218,8 +229,8 @@ const VerificationCodeInput = ({
         </div>
       )}
 
-      {/* Error Message */}
-      {error && (
+      {/* Error Message - Only show if not verified */}
+      {error && !isVerified && (
         <div style={{
           color: '#ef4444',
           fontSize: '0.875rem',

@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false); // NEW: Track superadmin status
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
   const isLoadingProfileRef = useRef(false); // Use ref instead of state for synchronous access
@@ -33,25 +34,12 @@ export const AuthProvider = ({ children }) => {
       console.log('📋 Loading profile for user:', user.email);
       console.log('📋 User ID:', user.id);
       
-      // Add timeout to prevent hanging forever (increased to 10 seconds for slow connections)
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Profile query timeout')), 10000)
-      );
-      
-      const queryPromise = supabase
+      // Query profile with maybeSingle to handle missing profiles gracefully
+      const { data: profile, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
-      
-      // Race between query and timeout
-      const { data: profile, error } = await Promise.race([
-        queryPromise,
-        timeoutPromise
-      ]).catch(err => {
-        console.error('❌ Profile query failed or timed out:', err);
-        return { data: null, error: err };
-      });
+        .maybeSingle();
 
       console.log('📋 Profile query result:', { profile, error });
 
@@ -77,11 +65,14 @@ export const AuthProvider = ({ children }) => {
       if (profile) {
         console.log('✅ Profile loaded successfully from database:', profile);
         setUserProfile(profile);
-        setIsAdmin(profile.role === 'admin');
+        // Set role flags
+        setIsSuperAdmin(profile.role === 'superadmin');
+        setIsAdmin(profile.role === 'admin' || profile.role === 'superadmin'); // superadmin is also admin
         setIsUser(profile.role === 'user');
         console.log('✅ Profile state updated:', {
           role: profile.role,
-          isAdmin: profile.role === 'admin',
+          isSuperAdmin: profile.role === 'superadmin',
+          isAdmin: profile.role === 'admin' || profile.role === 'superadmin',
           isUser: profile.role === 'user'
         });
       } else {
@@ -115,12 +106,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('🔍 AuthContext initialized - Checking for existing session');
     
-    // Add a timeout to force loading to false after 3 seconds
-    const loadingTimeout = setTimeout(() => {
-      console.log('⏰ Auth loading timeout - forcing loading to false');
-      setLoading(false);
-    }, 3000);
-    
     // Check for existing session on mount
     const getInitialSession = async () => {
       try {
@@ -129,7 +114,6 @@ export const AuthProvider = ({ children }) => {
         if (error) {
           console.error('Error getting session:', error);
           setLoading(false);
-          clearTimeout(loadingTimeout);
           return;
         }
 
@@ -138,16 +122,13 @@ export const AuthProvider = ({ children }) => {
           setUser(session.user);
           await loadUserProfile(session.user);
           setLoading(false);
-          clearTimeout(loadingTimeout);
         } else {
           console.log('ℹ️ No existing session found');
           setLoading(false);
-          clearTimeout(loadingTimeout);
         }
       } catch (error) {
         console.error('Session check error:', error);
         setLoading(false);
-        clearTimeout(loadingTimeout);
       }
     };
 
@@ -164,6 +145,7 @@ export const AuthProvider = ({ children }) => {
           console.log('🚪 User explicitly signed out');
           setUser(null);
           setUserProfile(null);
+          setIsSuperAdmin(false);
           setIsAdmin(false);
           setIsUser(false);
           setLoading(false);
@@ -174,6 +156,7 @@ export const AuthProvider = ({ children }) => {
             console.log('🚫 User explicitly logged out, ignoring session restoration');
             setUser(null);
             setUserProfile(null);
+            setIsSuperAdmin(false);
             setIsAdmin(false);
             setIsUser(false);
             setLoading(false);
@@ -208,6 +191,7 @@ export const AuthProvider = ({ children }) => {
           console.log('❌ No active session');
           setUser(null);
           setUserProfile(null);
+          setIsSuperAdmin(false);
           setIsAdmin(false);
           setIsUser(false);
           setLoading(false);
@@ -217,7 +201,6 @@ export const AuthProvider = ({ children }) => {
     );
 
     return () => {
-      clearTimeout(loadingTimeout);
       subscription.unsubscribe();
     };
   }, []);
@@ -232,7 +215,7 @@ export const AuthProvider = ({ children }) => {
           .from('profiles')
           .select('email, is_verified')
           .eq('email', email)
-          .single();
+          .maybeSingle();
 
         // If error is "not found" (PGRST116), that's fine - email is available
         if (checkError && checkError.code !== 'PGRST116') {
@@ -405,7 +388,7 @@ export const AuthProvider = ({ children }) => {
 
         console.log('📋 User role:', profile.role);
 
-        if (profile.role !== 'admin') {
+        if (profile.role !== 'admin' && profile.role !== 'superadmin') {
           console.error('❌ User is not admin, role:', profile.role);
           await supabase.auth.signOut();
           return { success: false, error: 'Access denied. Admin privileges required.' };
@@ -471,7 +454,8 @@ export const AuthProvider = ({ children }) => {
       // Clear React state AFTER clearing storage to prevent re-login
       setUser(null);
       setUserProfile(null);
-    setIsAdmin(false);
+      setIsSuperAdmin(false);
+      setIsAdmin(false);
       setIsUser(false);
       setLoading(false);
       isLoadingProfileRef.current = false;
@@ -603,6 +587,7 @@ export const AuthProvider = ({ children }) => {
     userProfile,
     isAdmin,
     isUser,
+    isSuperAdmin, // NEW: Export superadmin status
     loading,
     signUp,
     signIn,

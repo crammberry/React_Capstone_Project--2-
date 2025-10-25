@@ -299,6 +299,41 @@ const PlotDetailsModal = ({ plot, onClose, onRequestExhumation, onReservePlot, o
                 </button>
               )}
 
+              {/* Available Plot - Reserve Plot */}
+              {isAvailable && (
+                <button
+                  onClick={() => {
+                    onReservePlot(plot);
+                    onClose();
+                  }}
+                  style={{
+                    width: '100%',
+                    height: '36px',
+                    maxHeight: '36px',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    padding: '0 16px',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    marginBottom: '8px'
+                  }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#2563eb'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#3b82f6'}
+                >
+                  <svg style={{ width: '14px', height: '14px', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                  </svg>
+                  <span>Reserve Plot</span>
+                </button>
+              )}
+
               {/* Available or Reserved Plot - Request Exhumation IN */}
               {(isAvailable || isReserved) && (
                 <button

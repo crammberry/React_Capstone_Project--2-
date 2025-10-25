@@ -121,29 +121,26 @@ Note: Check SendGrid dashboard for sender verification
       
       console.log('🔍 Verifying code:', { email, code });
       
+      // Use maybeSingle() to handle case where code might already be deleted
       const { data, error } = await supabase
         .from('verification_codes')
         .select('*')
         .eq('email', email)
         .eq('code', code)
-        .single();
+        .maybeSingle();
 
       console.log('🔍 Verification query result:', { data, error });
 
-      // If no data found, code is invalid
-      if (error && error.code === 'PGRST116') {
-        console.log('❌ Code not found in database');
-        return { success: false, error: 'Invalid verification code' };
-      }
-
-      if (error) {
+      // If there's a real database error (not just "not found")
+      if (error && error.code !== 'PGRST116') {
         console.error('❌ Database error:', error);
         return { success: false, error: 'Database error. Please try again.' };
       }
 
+      // If no data found, code is invalid or already used
       if (!data) {
-        console.log('❌ No data returned');
-        return { success: false, error: 'Invalid verification code' };
+        console.log('❌ Code not found in database (may have been already used)');
+        return { success: false, error: 'Invalid or already used verification code' };
       }
 
       // Check if code is expired
