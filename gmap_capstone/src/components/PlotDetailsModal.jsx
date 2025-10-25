@@ -281,7 +281,7 @@ const PlotDetailsModal = ({ plot, onClose, onRequestExhumation, onReservePlot, o
               )}
 
               <p style={{ fontSize: '12px', color: '#6b7280', textAlign: 'center', marginTop: '4px' }}>
-                Requests require admin approval
+                All requests require admin approval
               </p>
             </div>
           </div>
