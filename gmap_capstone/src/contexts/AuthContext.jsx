@@ -183,14 +183,23 @@ export const AuthProvider = ({ children }) => {
           if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
             // User signed in or session restored
             console.log('👤 User session active, setting user and loading profile');
-            setUser(session.user);
             
-            try {
-              console.log('📋 About to call loadUserProfile...');
-              await loadUserProfile(session.user);
-              console.log('📋 loadUserProfile completed');
-            } catch (error) {
-              console.error('❌ Error calling loadUserProfile:', error);
+            // CRITICAL FIX: Only load profile if we don't already have it for this user
+            const needsProfileLoad = !userProfile || userProfile.id !== session.user.id;
+            
+            if (needsProfileLoad) {
+              console.log('📋 Profile not loaded yet, loading now...');
+              setUser(session.user);
+              
+              try {
+                await loadUserProfile(session.user);
+                console.log('📋 loadUserProfile completed');
+              } catch (error) {
+                console.error('❌ Error calling loadUserProfile:', error);
+              }
+            } else {
+              console.log('✅ Profile already loaded for this user, skipping reload');
+              setUser(session.user); // Just update user session data
             }
             
             setLoading(false);
