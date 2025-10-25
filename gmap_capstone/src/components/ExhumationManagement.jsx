@@ -215,6 +215,33 @@ const ExhumationManagement = () => {
         }
       }
 
+      // Update plot status based on exhumation/burial completion
+      const request = exhumationRequests.find(r => r.id === requestId);
+      if (request && (newStatus === 'completed' || newStatus === 'paid')) {
+        try {
+          let newPlotStatus = null;
+          
+          if (request.request_type === 'OUT') {
+            // Exhumation completed - plot becomes available
+            newPlotStatus = 'available';
+          } else if (request.request_type === 'IN') {
+            // Burial completed - plot becomes occupied
+            newPlotStatus = 'occupied';
+          }
+          
+          if (newPlotStatus) {
+            await supabase
+              .from('plots')
+              .update({ status: newPlotStatus })
+              .eq('plot_id', request.plotId);
+            
+            console.log(`✅ Plot ${request.plotId} status updated to ${newPlotStatus}`);
+          }
+        } catch (plotError) {
+          console.error('❌ Error updating plot status:', plotError);
+        }
+      }
+
       // Trigger immediate refresh to get latest data from database
       setTimeout(() => {
         setRefreshKey(prev => prev + 1);

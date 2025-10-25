@@ -147,20 +147,30 @@ const ReservationManagement = () => {
         setRefreshKey(prev => prev + 1);
       }, 1000);
 
-      // Update plot status if approved or active
-      if (newStatus === 'ACTIVE') {
-        const reservation = reservations.find(r => r.id === reservationId);
-        if (reservation) {
-          try {
+      // Update plot status based on reservation status
+      const reservation = reservations.find(r => r.id === reservationId);
+      if (reservation) {
+        try {
+          let newPlotStatus = null;
+          
+          if (newStatus === 'APPROVED') {
+            newPlotStatus = 'reserved'; // Plot is reserved when approved
+          } else if (newStatus === 'PAID' || newStatus === 'ACTIVE' || newStatus === 'COMPLETED') {
+            newPlotStatus = 'occupied'; // Plot is occupied when payment confirmed
+          } else if (newStatus === 'REJECTED' || newStatus === 'CANCELLED') {
+            newPlotStatus = 'available'; // Plot becomes available again
+          }
+          
+          if (newPlotStatus) {
             await supabase
               .from('plots')
-              .update({ status: 'reserved' })
+              .update({ status: newPlotStatus })
               .eq('plot_id', reservation.plot_id);
             
-            console.log(`✅ Plot ${reservation.plot_id} marked as reserved`);
-          } catch (plotError) {
-            console.error('Error updating plot status:', plotError);
+            console.log(`✅ Plot ${reservation.plot_id} status updated to ${newPlotStatus}`);
           }
+        } catch (plotError) {
+          console.error('Error updating plot status:', plotError);
         }
       }
     } catch (error) {
