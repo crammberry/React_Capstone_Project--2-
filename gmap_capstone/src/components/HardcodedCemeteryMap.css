@@ -1,0 +1,1408 @@
+/* Office Pin - Codrops Style */
+.office-pin {
+  position: absolute !important;
+  top: -20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 30px !important;
+  height: 30px !important;
+  background: #4a90e2 !important;
+  border-radius: 50% 50% 50% 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  z-index: 15 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.office-pin::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -5px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+  border-top: 6px solid #4a90e2 !important;
+}
+
+.pin-icon {
+  font-size: 12px !important;
+  color: white !important;
+  transform: none !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.office-pin:hover {
+  transform: translateX(-50%) scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  background: #5ba0f2 !important;
+}
+
+/* Office Tooltip - Codrops Style */
+.office-tooltip {
+  position: absolute !important;
+  top: -45px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: white !important;
+  border: 2px solid #4a90e2 !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  color: #333 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  z-index: 20 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+/* Plot Tooltip */
+.cemetery-plot .office-tooltip {
+  position: absolute !important;
+  top: -35px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: white !important;
+  border: 2px solid #4a90e2 !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+  color: #333 !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+  z-index: 25 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+.office-tooltip::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 6px solid transparent !important;
+  border-right: 6px solid transparent !important;
+  border-top: 6px solid #4a90e2 !important;
+}
+
+/* Real Cemetery Map Based on Your Canva Design */
+.cemetery-map-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+  font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Fullscreen mode */
+.cemetery-map-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+}
+
+/* Prevent any scroll interference */
+.cemetery-map-container * {
+  scroll-behavior: auto !important;
+}
+
+.cemetery-3d-container * {
+  scroll-behavior: auto !important;
+  -webkit-overflow-scrolling: auto !important;
+}
+
+/* Header */
+.cemetery-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-icon {
+  font-size: 30px;
+}
+
+.back-to-default-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.back-to-default-button:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Default View Button - Always Visible */
+.default-view-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.default-view-button:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+
+/* Map Controls */
+.map-controls {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Close Controls Button */
+.close-controls-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #ff4444;
+  font-size: 12px;
+}
+
+.close-controls-button:hover {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.5);
+  transform: scale(1.1);
+}
+
+/* Controls Toggle Button */
+.controls-toggle-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.controls-toggle-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.controls-toggle-button i {
+  font-size: 16px;
+}
+
+/* Controls Section */
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.controls-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.zoom-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rotation-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 10px 0;
+}
+
+.rotation-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Pan Controls */
+.pan-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 10px 0;
+}
+
+.pan-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.control-button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  color: #515158;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.control-button:hover {
+  background: #f8f9fa;
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transform: scale(1.05);
+}
+
+.rotation-info {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rotation-info span {
+  display: block;
+  font-weight: 500;
+}
+
+/* Main 3D Container */
+.cemetery-3d-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  perspective: 1200px;
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+  user-select: none;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: auto;
+  isolation: isolate;
+  contain: layout style paint;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cemetery-structure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+  width: 1400px;
+  height: 1000px;
+  transform-origin: center center;
+}
+
+/* Cemetery Levels */
+.cemetery-level {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  opacity: 1;
+  transform-origin: center center;
+}
+
+/* Level Separator Lines - Subtle Gray */
+.cemetery-level::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 10;
+  background: #d0d0d0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.level-label {
+  position: absolute;
+  left: -120px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+  font-weight: bold;
+  color: #515158;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px 30px;
+  border-radius: 35px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.level-label:hover {
+  transform: translateY(-50%) scale(1.1);
+  background: #3b82f6;
+  color: white;
+}
+
+/* Level Animation Classes */
+.cemetery-level.fade-out {
+  opacity: 0;
+  transform: scale(0.8) translateZ(0px);
+  transition: all 0.5s ease;
+}
+
+.cemetery-level.fade-in {
+  opacity: 1;
+  transform: scale(1) translateZ(200px);
+  transition: all 0.5s ease;
+}
+
+.cemetery-level.slide-out {
+  opacity: 0;
+  transform: translateX(-100px) translateZ(0px);
+  transition: all 0.5s ease;
+}
+
+.cemetery-level.slide-in {
+  opacity: 1;
+  transform: translateX(0px) translateZ(200px);
+  transition: all 0.5s ease;
+}
+
+.cemetery-level.zoom-out {
+  opacity: 0;
+  transform: scale(0.5) translateZ(0px);
+  transition: all 0.5s ease;
+}
+
+.cemetery-level.zoom-in {
+  opacity: 1;
+  transform: scale(1) translateZ(200px);
+  transition: all 0.5s ease;
+}
+
+.level-floor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #f8f9fa;
+  border: 4px solid #e0e0e0;
+  border-radius: 15px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+/* Cemetery Layout */
+.cemetery-layout {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-rows: 80px 1fr 80px;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+
+/* Top Section */
+.top-section {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 10px;
+}
+
+/* Veterans Section */
+.veterans-section {
+  background: #e5e5e5;
+  border: 3px solid #d0d0d0;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.veterans-plots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* Office Section - Simple Circle */
+.office-section {
+  background: #d0d0d0 !important;
+  border: none !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 50% !important;
+  padding: 20px !important;
+  text-align: center !important;
+  position: relative !important;
+  z-index: 10 !important;
+  width: 100px !important;
+  height: 100px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 10px auto 0 auto !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.office-section .section-label {
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: none;
+}
+
+.office-building {
+  display: none;
+}
+
+
+
+
+/* Eternal Tomb Section */
+.eternal-tomb-section {
+  background: #d5d5d5;
+  border: 3px solid #c0c0c0;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  height: 120px;
+  margin: 10px auto;
+  position: relative;
+}
+
+/* Eternal Tomb Pin */
+.eternal-tomb-pin {
+  width: 30px;
+  height: 30px;
+  background: #4a90e2;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.eternal-tomb-plots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* Left Side Layout */
+.left-side-layout {
+  grid-row: 2;
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 30px;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+/* Apartment V Column (Light Purple) */
+.apartment-v-column {
+  background: #e8e8e8;
+  border: 3px solid #d0d0d0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.apartment-v-plots {
+  display: grid;
+  grid-template-rows: repeat(15, 1fr);
+  gap: 1px;
+  height: 100%;
+}
+
+/* Left Block Sections (Yellow) */
+.left-block-sections {
+  background: #f5f5f5;
+  border: 3px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.left-block-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 1px;
+  height: 100%;
+}
+
+/* Right Side Layout */
+.right-side-layout {
+  grid-row: 2;
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 1fr 120px 120px;
+  gap: 15px;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+/* Right Block Sections (Orange) */
+.right-block-sections {
+  background: #f0f0f0;
+  border: 3px solid #d0d0d0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.right-block-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 1px;
+  height: 100%;
+}
+
+/* Apartment 2nd Level Column (Dark Purple) */
+.apartment-2nd-column {
+  background: #d8d8d8;
+  border: 3px solid #c0c0c0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.apartment-2nd-plots {
+  display: grid;
+  grid-template-rows: repeat(15, 1fr);
+  gap: 1px;
+  height: 100%;
+}
+
+/* Restos Bonecrypt Column (Dark Brown) */
+.restos-bonecrypt-column {
+  background: #d0d0d0;
+  border: 3px solid #b0b0b0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Restos Bonecrypt Pin */
+.restos-bonecrypt-pin {
+  width: 30px;
+  height: 30px;
+  background: #4a90e2;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.restos-bonecrypt-plots {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 5px;
+  height: 100%;
+}
+
+/* Bottom Section */
+.bottom-section {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 10px;
+  margin-top: -60px;
+}
+
+/* Excess Lots Section (Dark Green) */
+.excess-lots-section {
+  background: #e0e0e0;
+  border: 3px solid #c0c0c0;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.excess-lots-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Entrance Shape */
+.entrance-shape {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 40px;
+  background: #d0d0d0;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Eternal Tomb Shape */
+.eternal-tomb-shape {
+  position: relative;
+  width: 120px;
+  height: 60px;
+  background: #d0d0d0;
+  border-radius: 8px;
+  margin: 10px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.entrance-pin {
+  width: 30px;
+  height: 30px;
+  background: #4a90e2;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.entrance-pin::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-top: 3px solid #4a90e2;
+}
+
+
+
+
+
+/* Cemetery Plots */
+.cemetery-plot {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: plotAppear 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+  position: relative;
+  overflow: visible;
+}
+
+.cemetery-plot:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.cemetery-plot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+@keyframes plotAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.plot-marker {
+  font-size: 12px;
+  margin-bottom: 2px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+.plot-label {
+  display: none;
+}
+
+/* Plot-specific colors - all gray variations */
+.left-block-plot {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}
+
+.right-block-plot {
+  background: #f0f0f0;
+  border-color: #d0d0d0;
+}
+
+.apartment-v-plot {
+  background: #e8e8e8;
+  border-color: #d0d0d0;
+}
+
+.apartment-2nd-plot {
+  background: #d8d8d8;
+  border-color: #c0c0c0;
+}
+
+.restos-bonecrypt-plot {
+  background: #d0d0d0;
+  border-color: #b0b0b0;
+}
+
+.veterans-plot {
+  border-color: #d0d0d0;
+  min-height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eternal-tomb-plot {
+  background: #d5d5d5;
+  border-color: #c0c0c0;
+}
+
+.excess-lots-plot {
+  background: #e0e0e0;
+  border-color: #c0c0c0;
+}
+
+/* Level-specific styling */
+.level-1 .level-floor {
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-color: #d0d0d0;
+}
+
+.level-2 .level-floor {
+  background: linear-gradient(135deg, #f5f0ff, #e6e6ff);
+  border-color: #d0d0d0;
+}
+
+.level-3 .level-floor {
+  background: linear-gradient(135deg, #fff0f0, #ffe6e6);
+  border-color: #d0d0d0;
+}
+
+.level-4 .level-floor {
+  background: linear-gradient(135deg, #f8f0ff, #f0e6ff);
+  border-color: #d0d0d0;
+}
+
+/* Cemetery Surroundings */
+.cemetery-surroundings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+
+/* Search Sidebar */
+.cemetery-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 24px;
+  overflow-y: auto;
+  z-index: 50;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Collapsed Sidebar */
+.cemetery-sidebar.collapsed {
+  width: 60px;
+  padding: 20px 10px;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+  position: absolute;
+  top: 50%;
+  left: -15px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  z-index: 101;
+}
+
+.sidebar-toggle:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+
+/* Controls Toggle Section */
+.controls-toggle-section {
+  margin: 15px 0;
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-container {
+  margin-bottom: 24px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  transform: translateY(-1px);
+}
+
+.alphabetical-index {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+/* .section-categories {
+  space-y: 20px; - This is a Tailwind utility, not valid CSS
+} */
+
+.category {
+  margin-bottom: 28px;
+}
+
+.category-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #667eea;
+  position: relative;
+}
+
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.category-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.category-item:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateX(6px) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  border-color: transparent;
+}
+
+.item-name {
+  font-size: 15px;
+  color: #1e293b;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.category-item:hover .item-name {
+  color: white;
+}
+
+.item-location {
+  font-size: 12px;
+  color: #666;
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .cemetery-structure {
+    width: 1000px;
+    height: 750px;
+  }
+  
+  .cemetery-sidebar {
+    width: 250px;
+  }
+  
+  .level-navigation {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .level-nav-button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cemetery-structure {
+    width: 800px;
+    height: 600px;
+  }
+  
+  .cemetery-sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+  
+  .cemetery-plot {
+    font-size: 0.5rem;
+  }
+  
+  .plot-label {
+    font-size: 0.4rem;
+  }
+  
+  .level-navigation {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .cemetery-structure {
+    width: 600px;
+    height: 450px;
+  }
+  
+  .cemetery-sidebar {
+    width: 150px;
+    padding: 10px;
+  }
+  
+  .cemetery-plot {
+    font-size: 0.4rem;
+  }
+  
+  .plot-label {
+    font-size: 0.3rem;
+  }
+  
+  .section-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* Smartphone screens (iPhone, Android phones) */
+@media (max-width: 414px) {
+  .cemetery-structure {
+    width: 380px;
+    height: 300px;
+  }
+  
+  .cemetery-sidebar {
+    width: 100px;
+    padding: 8px;
+  }
+  
+  .cemetery-plot {
+    font-size: 0.35rem;
+    min-height: 28px;
+    min-width: 28px;
+  }
+  
+  .plot-label {
+    font-size: 0.25rem;
+  }
+  
+  .section-label {
+    font-size: 0.7rem;
+  }
+  
+  .level-label {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+  
+  .office-pin {
+    width: 22px !important;
+    height: 22px !important;
+    top: -16px !important;
+  }
+  
+  .pin-icon {
+    font-size: 9px !important;
+  }
+}
+
+/* Small smartphone screens (iPhone SE, older phones) */
+@media (max-width: 375px) {
+  .cemetery-structure {
+    width: 320px;
+    height: 250px;
+  }
+  
+  .cemetery-sidebar {
+    width: 80px;
+    padding: 6px;
+  }
+  
+  .cemetery-plot {
+    font-size: 0.3rem;
+    min-height: 24px;
+    min-width: 24px;
+  }
+  
+  .plot-label {
+    font-size: 0.2rem;
+  }
+  
+  .section-label {
+    font-size: 0.6rem;
+  }
+  
+  .level-label {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+  
+  .office-pin {
+    width: 18px !important;
+    height: 18px !important;
+    top: -14px !important;
+  }
+  
+  .pin-icon {
+    font-size: 7px !important;
+  }
+}
+
+/* Extra small smartphone screens (very old phones) */
+@media (max-width: 320px) {
+  .cemetery-structure {
+    width: 280px;
+    height: 220px;
+  }
+  
+  .cemetery-sidebar {
+    width: 70px;
+    padding: 4px;
+  }
+  
+  .cemetery-plot {
+    font-size: 0.25rem;
+    min-height: 20px;
+    min-width: 20px;
+  }
+  
+  .plot-label {
+    font-size: 0.15rem;
+  }
+  
+  .section-label {
+    font-size: 0.5rem;
+  }
+  
+  .level-label {
+    font-size: 0.6rem;
+    padding: 2px 4px;
+  }
+  
+  .office-pin {
+    width: 16px !important;
+    height: 16px !important;
+    top: -12px !important;
+  }
+  
+  .pin-icon {
+    font-size: 6px !important;
+  }
+}
+
+/* Smartphone Touch Improvements */
+@media (max-width: 414px) {
+  /* Optimized touch targets for smartphones */
+  .cemetery-plot {
+    min-height: 32px;
+    min-width: 32px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none;
+  }
+  
+  .level-label {
+    min-height: 36px;
+    min-width: 36px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none;
+  }
+  
+  .office-pin {
+    min-height: 32px !important;
+    min-width: 32px !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none;
+  }
+  
+  /* Smartphone-specific touch scrolling */
+  .cemetery-3d-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    -webkit-transform: translateZ(0);
+  }
+  
+  /* Enhanced touch feedback for smartphones */
+  .cemetery-plot:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .level-label:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .office-pin:active {
+    transform: translateX(-50%) scale(0.9) !important;
+    transition: transform 0.1s ease;
+  }
+  
+  /* Prevent zoom and text selection on smartphones */
+  .cemetery-plot,
+  .level-label,
+  .office-pin {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Smartphone viewport optimization */
+  .cemetery-3d-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
