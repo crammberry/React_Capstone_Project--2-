@@ -66,7 +66,23 @@ const ExhumationManagement = () => {
           adminNotes: request.admin_notes,
           exhumationDate: request.exhumation_date,
           exhumationTeam: request.exhumation_team,
-          documents: request.documents || []
+          documents: request.documents || [],
+          // Document URLs
+          validIdUrl: request.valid_id_url,
+          deathCertificateUrl: request.death_certificate_url,
+          birthCertificateUrl: request.birth_certificate_url,
+          affidavitUrl: request.affidavit_url,
+          burialPermitUrl: request.burial_permit_url,
+          // Requestor info
+          requestorName: request.requestor_name,
+          requestorEmail: request.requestor_email,
+          requestorPhone: request.requestor_phone,
+          requestorAddress: request.requestor_address,
+          deceasedRelationship: request.deceased_relationship,
+          reasonForExhumation: request.reason_for_exhumation,
+          newLocation: request.new_location,
+          preferredDate: request.preferred_date,
+          requestType: request.request_type
         }));
         
         setExhumationRequests(transformedRequests);
@@ -648,21 +664,85 @@ const ExhumationManagement = () => {
               </div>
 
               {/* Documents */}
-              {selectedRequest.documents && selectedRequest.documents.length > 0 && (
-                <div>
-                  <h4 className="text-lg font-semibold text-gray-800 mb-3">Supporting Documents</h4>
-                  <div className="space-y-2">
-                    {selectedRequest.documents.map((doc, index) => (
-                      <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded">
-                        <span className="text-gray-700">{doc}</span>
-                        <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                          Download
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+              <div>
+                <h4 className="text-lg font-semibold text-gray-800 mb-3">Uploaded Documents</h4>
+                <div className="space-y-2">
+                  {selectedRequest.validIdUrl && (
+                    <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                      <span className="text-gray-700">📄 Valid Government ID</span>
+                      <a
+                        href={selectedRequest.validIdUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        View Document →
+                      </a>
+                    </div>
+                  )}
+                  {selectedRequest.deathCertificateUrl && (
+                    <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                      <span className="text-gray-700">📄 Death Certificate</span>
+                      <a
+                        href={selectedRequest.deathCertificateUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        View Document →
+                      </a>
+                    </div>
+                  )}
+                  {selectedRequest.birthCertificateUrl && (
+                    <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                      <span className="text-gray-700">📄 Birth Certificate</span>
+                      <a
+                        href={selectedRequest.birthCertificateUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        View Document →
+                      </a>
+                    </div>
+                  )}
+                  {selectedRequest.affidavitUrl && (
+                    <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                      <span className="text-gray-700">📄 Affidavit</span>
+                      <a
+                        href={selectedRequest.affidavitUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        View Document →
+                      </a>
+                    </div>
+                  )}
+                  {selectedRequest.burialPermitUrl && (
+                    <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                      <span className="text-gray-700">📄 Burial Permit</span>
+                      <a
+                        href={selectedRequest.burialPermitUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        View Document →
+                      </a>
+                    </div>
+                  )}
+                  {!selectedRequest.validIdUrl && 
+                   !selectedRequest.deathCertificateUrl && 
+                   !selectedRequest.birthCertificateUrl && 
+                   !selectedRequest.affidavitUrl && 
+                   !selectedRequest.burialPermitUrl && (
+                    <div className="bg-yellow-50 p-3 rounded text-sm text-yellow-800">
+                      No documents uploaded
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
 
               {/* Admin Notes */}
               {selectedRequest.adminNotes && (
