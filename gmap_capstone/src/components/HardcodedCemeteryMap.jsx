@@ -682,26 +682,27 @@ const HardcodedCemeteryMap = () => {
           Interactive Cemetery Map
         </div>
         
-        {/* Default View Button - Always Visible */}
-        <button 
-          className="default-view-button" 
-          onClick={handleBackToDefaultView}
-          title="Default View - Show All Levels"
-        >
-          <i className="fas fa-layer-group"></i>
-          Default View
-        </button>
-        
-        {/* Refresh Button - Reload Plot Data */}
-        <button 
-          className="default-view-button" 
-          onClick={() => loadPlots(false)}
-          title="Refresh plot data to see latest updates"
-          style={{ marginLeft: '8px' }}
-        >
-          <i className="fas fa-sync-alt"></i>
-          Refresh
-        </button>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          {/* Default View Button - Always Visible */}
+          <button 
+            className="default-view-button" 
+            onClick={handleBackToDefaultView}
+            title="Default View - Show All Levels"
+          >
+            <i className="fas fa-layer-group"></i>
+            Default View
+          </button>
+          
+          {/* Refresh Button - Reload Plot Data */}
+          <button 
+            className="default-view-button" 
+            onClick={() => loadPlots(false)}
+            title="Refresh plot data to see latest updates"
+          >
+            <i className="fas fa-sync-alt"></i>
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Zoom and Rotation Controls */}
