@@ -51,8 +51,11 @@ serve(async (req) => {
     // Generate email content based on status
     let subject = ''
     let htmlContent = ''
+    
+    // Normalize status to lowercase for comparison
+    const normalizedStatus = status.toLowerCase()
 
-    if (status === 'approved') {
+    if (normalizedStatus === 'approved') {
       subject = '✅ Exhumation Request Approved - Action Required'
       htmlContent = `
         <!DOCTYPE html>
@@ -145,7 +148,7 @@ serve(async (req) => {
         </body>
         </html>
       `
-    } else if (status === 'rejected') {
+    } else if (normalizedStatus === 'rejected') {
       subject = '❌ Exhumation Request Status Update'
       htmlContent = `
         <!DOCTYPE html>

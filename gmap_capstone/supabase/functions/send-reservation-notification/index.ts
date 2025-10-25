@@ -58,8 +58,11 @@ serve(async (req) => {
     // Generate email content based on status
     let subject = ''
     let htmlContent = ''
+    
+    // Normalize status to uppercase for comparison
+    const normalizedStatus = status.toUpperCase()
 
-    if (status === 'APPROVED') {
+    if (normalizedStatus === 'APPROVED') {
       subject = '✅ Plot Reservation Approved - Payment Required'
       htmlContent = `
         <!DOCTYPE html>
@@ -161,7 +164,7 @@ serve(async (req) => {
         </body>
         </html>
       `
-    } else if (status === 'REJECTED') {
+    } else if (normalizedStatus === 'REJECTED') {
       subject = '❌ Plot Reservation Status Update'
       htmlContent = `
         <!DOCTYPE html>
