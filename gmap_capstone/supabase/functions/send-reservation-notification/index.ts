@@ -17,9 +17,9 @@ serve(async (req) => {
 
   try {
     // Get environment variables
-    const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
-    if (!RESEND_API_KEY) {
-      throw new Error('RESEND_API_KEY not configured')
+    const SENDGRID_API_KEY = Deno.env.get('SENDGRID_API_KEY')
+    if (!SENDGRID_API_KEY) {
+      throw new Error('SENDGRID_API_KEY not configured')
     }
 
     // Parse request body
@@ -233,36 +233,42 @@ serve(async (req) => {
       throw new Error(`Unsupported status: ${status}`)
     }
 
-    // Send email via Resend API
-    console.log('📤 Calling Resend API...')
-    const resendResponse = await fetch('https://api.resend.com/emails', {
+    // Send email via SendGrid API
+    console.log('📤 Calling SendGrid API...')
+    const sendgridResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Authorization': `Bearer ${SENDGRID_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Cemetery Management <noreply@eternal-rest.resend.dev>',
-        to: [email],
-        subject: subject,
-        html: htmlContent,
+        personalizations: [{
+          to: [{ email: email }],
+          subject: subject
+        }],
+        from: {
+          email: 'amoromonste@gmail.com',
+          name: 'San Juan Cemetery'
+        },
+        content: [{
+          type: 'text/html',
+          value: htmlContent
+        }]
       }),
     })
-
-    const resendData = await resendResponse.json()
     
-    if (!resendResponse.ok) {
-      console.error('❌ Resend API error:', resendData)
-      throw new Error(`Resend API error: ${resendData.message || 'Unknown error'}`)
+    if (!sendgridResponse.ok) {
+      const sendgridError = await sendgridResponse.json()
+      console.error('❌ SendGrid API error:', sendgridError)
+      throw new Error(`SendGrid API error: ${JSON.stringify(sendgridError)}`)
     }
 
-    console.log('✅ Email sent successfully:', resendData)
+    console.log('✅ Email sent successfully via SendGrid')
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: 'Email sent successfully',
-        emailId: resendData.id 
+        message: 'Email sent successfully'
       }),
       {
         status: 200,
