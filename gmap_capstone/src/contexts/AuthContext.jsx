@@ -34,14 +34,29 @@ export const AuthProvider = ({ children }) => {
       console.log('📋 Loading profile for user:', user.email);
       console.log('📋 User ID:', user.id);
       
-      // Query profile with maybeSingle to handle missing profiles gracefully
-      const { data: profile, error } = await supabase
+      // Query profile with timeout to prevent infinite hanging
+      const profileQuery = supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .maybeSingle();
-
-      console.log('📋 Profile query result:', { profile, error });
+      
+      // Create timeout promise (5 seconds)
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Profile query timeout after 5 seconds')), 5000)
+      );
+      
+      // Race between query and timeout
+      let profile, error;
+      try {
+        const result = await Promise.race([profileQuery, timeoutPromise]);
+        profile = result.data;
+        error = result.error;
+        console.log('📋 Profile query result:', { profile, error });
+      } catch (timeoutError) {
+        console.error('⏱️ Profile query timed out:', timeoutError.message);
+        error = timeoutError;
+      }
 
       if (error) {
         if (error.code === 'PGRST116') {
