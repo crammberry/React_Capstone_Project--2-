@@ -209,7 +209,7 @@ const PlotReservationForm = ({ plot, onClose, onSuccess }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 100,
+        zIndex: 9999,
         padding: '16px'
       }}
       onClick={onClose}
