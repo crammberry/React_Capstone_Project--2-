@@ -118,8 +118,8 @@ const PlotReservationForm = ({ plot, onClose, onSuccess }) => {
 
   const uploadDocument = async (file, path) => {
     const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-    const filePath = `${path}/${fileName}`;
+    const fileName = `${path}_${Date.now()}.${fileExt}`;
+    const filePath = `${user.id}/${fileName}`;
 
     const { data, error } = await supabase.storage
       .from('exhumation-documents')
