@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
   const isLoadingProfileRef = useRef(false); // Use ref instead of state for synchronous access
+  const loadedUserIdRef = useRef(null); // Track which user's profile is loaded
   const hasLoggedOut = useRef(false); // Track if user explicitly logged out
 
   const loadUserProfile = async (user) => {
@@ -88,6 +89,7 @@ export const AuthProvider = ({ children }) => {
       if (profile) {
         console.log('✅ Profile loaded successfully from database:', profile);
         setUserProfile(profile);
+        loadedUserIdRef.current = user.id; // Track which user's profile we loaded
         // Set role flags
         setIsSuperAdmin(profile.role === 'superadmin');
         setIsAdmin(profile.role === 'admin' || profile.role === 'superadmin'); // superadmin is also admin
@@ -182,6 +184,7 @@ export const AuthProvider = ({ children }) => {
           setIsUser(false);
           setLoading(false);
           isLoadingProfileRef.current = false; // Reset profile loading state
+          loadedUserIdRef.current = null; // Clear loaded user ID
         } else if (session?.user) {
           // Check if user explicitly logged out - prevent auto-login
           if (hasLoggedOut.current) {
@@ -192,6 +195,7 @@ export const AuthProvider = ({ children }) => {
             setIsAdmin(false);
             setIsUser(false);
             setLoading(false);
+            loadedUserIdRef.current = null; // Clear loaded user ID
             return;
           }
           
@@ -201,8 +205,8 @@ export const AuthProvider = ({ children }) => {
             // User signed in or session restored
             console.log('👤 User session active, setting user and loading profile');
             
-            // CRITICAL FIX: Only load profile if we don't already have it for this user
-            const needsProfileLoad = !userProfile || userProfile.id !== session.user.id;
+            // CRITICAL FIX: Use REF instead of state to avoid stale closure bug
+            const needsProfileLoad = loadedUserIdRef.current !== session.user.id;
             
             if (needsProfileLoad) {
               console.log('📋 Profile not loaded yet, loading now...');
@@ -237,6 +241,7 @@ export const AuthProvider = ({ children }) => {
           setIsUser(false);
           setLoading(false);
           isLoadingProfileRef.current = false; // Reset profile loading state
+          loadedUserIdRef.current = null; // Clear loaded user ID
         }
       }
     );
@@ -500,6 +505,7 @@ export const AuthProvider = ({ children }) => {
       setIsUser(false);
       setLoading(false);
       isLoadingProfileRef.current = false;
+      loadedUserIdRef.current = null; // Clear loaded user ID
       
       console.log('✅ Local state cleared');
       console.log('✅ Logout completed successfully - User will stay logged out until explicit login');
