@@ -391,13 +391,16 @@ const ExhumationRequestForm = ({ plot, requestType, onClose, onSuccess }) => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email Address *
+                    <span className="text-xs font-normal text-gray-500 ml-2">
+                      (From your account)
+                    </span>
                   </label>
                   <input
                     type="email"
                     name="requestor_email"
                     value={formData.requestor_email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    readOnly
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed text-gray-600"
                     placeholder="your.email@example.com"
                   />
                 </div>
