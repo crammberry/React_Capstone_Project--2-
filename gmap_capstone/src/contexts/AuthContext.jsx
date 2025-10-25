@@ -64,8 +64,16 @@ export const AuthProvider = ({ children }) => {
         } else {
           console.error('❌ Error loading profile:', error);
         }
-        // Set basic user info even if profile load fails
-        console.log('📋 Setting basic profile from user object');
+        
+        // CRITICAL FIX: If we already have a profile for this user, DON'T replace it with fallback!
+        // This prevents losing superadmin/admin roles on timeout
+        if (userProfile && userProfile.id === user.id) {
+          console.log('✅ Using existing cached profile, NOT replacing with fallback');
+          return;
+        }
+        
+        // Only create fallback profile if we don't have one
+        console.log('📋 Setting basic profile from user object (no existing profile)');
         setUserProfile({
           id: user.id,
           email: user.email,
@@ -104,7 +112,16 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('❌ Exception in loadUserProfile:', error);
-      // Set basic user info even on error
+      
+      // CRITICAL FIX: If we already have a profile for this user, DON'T replace it with fallback!
+      // This prevents losing superadmin/admin roles on error
+      if (userProfile && userProfile.id === user.id) {
+        console.log('✅ Using existing cached profile, NOT replacing with fallback (exception)');
+        return;
+      }
+      
+      // Only create fallback profile if we don't have one
+      console.log('📋 Setting fallback profile due to exception (no existing profile)');
       setUserProfile({
         id: user.id,
         email: user.email,

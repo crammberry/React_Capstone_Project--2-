@@ -12,10 +12,7 @@ import UserManagement from '../components/UserManagement';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { isAdmin, userProfile, logout } = useAuth();
-  
-  // Check if user is superadmin
-  const isSuperAdmin = userProfile?.role === 'superadmin';
+  const { isAdmin, isSuperAdmin, userProfile, logout } = useAuth();
   
   // Database state
   const [realisticStats, setRealisticStats] = useState({ total: 0, available: 0, occupied: 0, reserved: 0, exhumed: 0 });
