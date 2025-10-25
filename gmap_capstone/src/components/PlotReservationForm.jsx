@@ -609,9 +609,9 @@ const PlotReservationForm = ({ plot, onClose, onSuccess }) => {
                 <FileUpload
                   label="Valid Government ID *"
                   description="Driver's License, Passport, PhilID, etc."
-                  onFileSelect={(file) => handleFileChange('valid_id', file)}
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  maxSize={10}
+                  onChange={(file) => handleFileChange('valid_id', file)}
+                  value={formData.valid_id}
+                  accept="image/*,.pdf"
                   required
                 />
               </div>
@@ -622,9 +622,9 @@ const PlotReservationForm = ({ plot, onClose, onSuccess }) => {
                   <FileUpload
                     label="Proof of Relationship *"
                     description="Birth Certificate, Marriage Certificate, etc."
-                    onFileSelect={(file) => handleFileChange('proof_of_relationship', file)}
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    maxSize={10}
+                    onChange={(file) => handleFileChange('proof_of_relationship', file)}
+                    value={formData.proof_of_relationship}
+                    accept="image/*,.pdf"
                     required
                   />
                 </div>
