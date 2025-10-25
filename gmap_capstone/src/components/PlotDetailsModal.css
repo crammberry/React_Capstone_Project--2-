@@ -1,5 +1,6 @@
-/* Plot Details Modal Button Overrides - NUCLEAR OPTION */
-.plot-modal-action-btn {
+/* Plot Details Modal Button Overrides - MAXIMUM SPECIFICITY */
+button.plot-modal-action-btn,
+button.plot-modal-action-btn:not([disabled]) {
   width: 100% !important;
   height: 36px !important;
   max-height: 36px !important;
