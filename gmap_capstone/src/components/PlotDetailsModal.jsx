@@ -244,10 +244,7 @@ const PlotDetailsModal = ({ plot, onClose, onRequestExhumation, onReservePlot, o
                   onMouseEnter={(e) => e.target.style.backgroundColor = '#15803d'}
                   onMouseLeave={(e) => e.target.style.backgroundColor = '#16a34a'}
                 >
-                  <svg style={{ width: '14px', height: '14px', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  <span>Reserve Plot</span>
+                  Reserve Plot
                 </button>
               )}
 
@@ -263,10 +260,7 @@ const PlotDetailsModal = ({ plot, onClose, onRequestExhumation, onReservePlot, o
                   onMouseEnter={(e) => e.target.style.backgroundColor = '#c2410c'}
                   onMouseLeave={(e) => e.target.style.backgroundColor = '#ea580c'}
                 >
-                  <svg style={{ width: '14px', height: '14px', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                  </svg>
-                  <span>Request Exhumation</span>
+                  Request Exhumation
                 </button>
               )}
 
@@ -282,10 +276,7 @@ const PlotDetailsModal = ({ plot, onClose, onRequestExhumation, onReservePlot, o
                   onMouseEnter={(e) => e.target.style.backgroundColor = '#1d4ed8'}
                   onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'}
                 >
-                  <svg style={{ width: '14px', height: '14px', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                  </svg>
-                  <span>Request Burial</span>
+                  Request Burial
                 </button>
               )}
 
