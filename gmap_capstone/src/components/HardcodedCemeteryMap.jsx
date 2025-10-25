@@ -158,7 +158,7 @@ const HardcodedCemeteryMap = () => {
     }
   };
 
-  // Load plots on mount
+  // Load plots on mount and refresh periodically
   useEffect(() => {
     // Add timeout to prevent infinite loading
     const timeoutId = setTimeout(() => {
@@ -168,7 +168,16 @@ const HardcodedCemeteryMap = () => {
     
     loadPlots();
     
-    return () => clearTimeout(timeoutId);
+    // Auto-refresh plots every 10 seconds to catch admin updates
+    const refreshInterval = setInterval(() => {
+      console.log('🔄 Auto-refreshing plot data...');
+      loadPlots();
+    }, 10000); // Refresh every 10 seconds
+    
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(refreshInterval);
+    };
   }, []);
 
   // Track mouse position to determine if zoom should be active
