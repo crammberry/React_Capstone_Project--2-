@@ -505,8 +505,8 @@ select:focus {
     grid-template-columns: 1fr !important;
   }
 
-  /* Button adjustments for mobile */
-  button {
+  /* Button adjustments for mobile - EXCLUDE modal buttons */
+  button:not(.plot-modal-action-btn) {
     padding: 10px 16px !important;
     font-size: 13px !important;
   }
@@ -695,8 +695,8 @@ select:focus {
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
-  /* Increase touch target size */
-  button {
+  /* Increase touch target size - EXCLUDE modal buttons */
+  button:not(.plot-modal-action-btn) {
     min-height: 44px;
     min-width: 44px;
   }
