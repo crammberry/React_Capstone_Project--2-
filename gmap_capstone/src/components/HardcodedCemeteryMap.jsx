@@ -144,9 +144,11 @@ const HardcodedCemeteryMap = () => {
   ];
 
   // Function to load plots data from Supabase
-  const loadPlots = async () => {
+  const loadPlots = async (showLoadingState = true) => {
     try {
-      setLoading(true);
+      if (showLoadingState) {
+        setLoading(true);
+      }
       const allPlots = await DataService.getAllPlots();
       setPlots(allPlots);
       console.log('✅ Loaded plots from Supabase:', allPlots.length);
@@ -154,11 +156,13 @@ const HardcodedCemeteryMap = () => {
       console.error('Error loading plots:', error);
       setError('Failed to load plot data');
     } finally {
-      setLoading(false);
+      if (showLoadingState) {
+        setLoading(false);
+      }
     }
   };
 
-  // Load plots on mount and refresh periodically
+  // Load plots on mount
   useEffect(() => {
     // Add timeout to prevent infinite loading
     const timeoutId = setTimeout(() => {
@@ -166,17 +170,10 @@ const HardcodedCemeteryMap = () => {
       setLoading(false);
     }, 3000); // 3 second timeout
     
-    loadPlots();
-    
-    // Auto-refresh plots every 10 seconds to catch admin updates
-    const refreshInterval = setInterval(() => {
-      console.log('🔄 Auto-refreshing plot data...');
-      loadPlots();
-    }, 10000); // Refresh every 10 seconds
+    loadPlots(true); // Initial load with loading state
     
     return () => {
       clearTimeout(timeoutId);
-      clearInterval(refreshInterval);
     };
   }, []);
 
@@ -693,6 +690,17 @@ const HardcodedCemeteryMap = () => {
         >
           <i className="fas fa-layer-group"></i>
           Default View
+        </button>
+        
+        {/* Refresh Button - Reload Plot Data */}
+        <button 
+          className="default-view-button" 
+          onClick={() => loadPlots(false)}
+          title="Refresh plot data to see latest updates"
+          style={{ marginLeft: '8px' }}
+        >
+          <i className="fas fa-sync-alt"></i>
+          Refresh
         </button>
       </div>
 
