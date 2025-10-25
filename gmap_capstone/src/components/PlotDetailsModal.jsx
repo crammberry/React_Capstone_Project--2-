@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../contexts/AuthContext';
 import AdminPlotEditForm from './AdminPlotEditForm';
+import './PlotDetailsModal.css';
 
 const PlotDetailsModal = ({ plot, onClose, onRequestExhumation, onReservePlot, onPlotUpdated }) => {
   const { user, isAdmin } = useAuth();

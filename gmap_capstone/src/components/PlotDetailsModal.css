@@ -1,0 +1,30 @@
+/* Plot Details Modal Button Overrides - NUCLEAR OPTION */
+.plot-modal-action-btn {
+  width: 100% !important;
+  height: 36px !important;
+  max-height: 36px !important;
+  min-height: 36px !important;
+  color: white !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  transition: background-color 0.15s !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.plot-modal-action-btn:hover {
+  opacity: 0.9;
+}
+
+.plot-modal-action-btn svg {
+  flex-shrink: 0;
+}
+
